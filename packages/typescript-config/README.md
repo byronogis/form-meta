@@ -1,0 +1,1 @@
+# @form-meta/typescript-config

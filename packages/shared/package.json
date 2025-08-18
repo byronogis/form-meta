@@ -1,0 +1,16 @@
+{
+  "name": "@form-meta/shared",
+  "type": "module",
+  "version": "0.0.1-beta.1",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "release": "echo @form-meta/shared noneed release"
+  }
+}
