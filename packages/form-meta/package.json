@@ -45,7 +45,11 @@
     "test": "vitest",
     "clear": "rimraf dist"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@standard-schema/spec": "^1.0.0",
+    "type-fest": "^4.41.0",
+    "zod": "^4.0.17"
+  },
   "devDependencies": {
     "typescript": "catalog:deps"
   }
