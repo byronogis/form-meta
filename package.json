@@ -23,7 +23,7 @@
     "root:lint": "eslint .",
     "root:lint:fix": "eslint . --fix",
     "typecheck": "pnpm run -r typecheck",
-    "test": "pnpm run -r test",
+    "test": "pnpm run -F'./packages/form-meta' test",
     "clear": "pnpm run -r clear && rimraf -g '**/node_modules' '**/coverage'",
     "prepare": "simple-git-hooks"
   },

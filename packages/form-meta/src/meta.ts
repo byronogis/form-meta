@@ -1,76 +1,137 @@
+import type { SetRequiredDeep } from 'type-fest'
 import type {
-  FieldMeta,
-  FieldsMeta,
-  ResolvedFieldMeta,
+  RawFieldsMeta,
   ResolvedFieldsMeta,
 } from './type'
+import { cloneDeepWith, toMerged } from 'es-toolkit'
 
-export function defineFieldsMeta<
-  TFormData,
-  TFieldType,
-  TFieldExtends,
->(
-  meta: FieldsMeta<TFormData, TFieldType, TFieldExtends>,
-): FieldsMeta<TFormData, TFieldType, TFieldExtends> {
-  return meta
+/**
+ * Options for configuring the FieldsMeta class.
+ */
+interface FieldsMetaOptions {
+  /**
+   * The base path for resolving field names.
+   * Defaults to an empty string.
+   */
+  basePath?: string
 }
 
-export function resolveFieldsMeta<
-  TFormData,
+/**
+ * Resolved options for FieldsMeta, ensuring basePath is always present.
+ */
+type ResolvedFieldsMetaOptions = SetRequiredDeep<FieldsMetaOptions, 'basePath'>
+
+/**
+ * A class for managing and resolving form field metadata.
+ * It handles flattening nested structures and generating full paths for fields.
+ */
+export class FieldsMeta<
   TFieldType,
   TFieldExtends,
-  _TFieldsMeta extends FieldsMeta<TFormData, TFieldType, TFieldExtends> = FieldsMeta<TFormData, TFieldType, TFieldExtends>,
-  _TReturn extends ResolvedFieldsMeta<TFormData, TFieldType, TFieldExtends> = ResolvedFieldsMeta<TFormData, TFieldType, TFieldExtends>,
->(
-  meta: _TFieldsMeta,
-  options?: any,
-  parentPath?: string,
-  resolvedFieldsMeta: _TReturn = {} as _TReturn,
-): _TReturn {
-  (Object.keys(meta) as Array<keyof TFormData & string>).forEach((key) => {
-    const fieldMeta = meta[key]
-    const currentPath = parentPath ? `${parentPath}.${String(key)}` : String(key)
+> {
+  /**
+   * The resolved options for this instance.
+   */
+  options: ResolvedFieldsMetaOptions
 
-    switch ((fieldMeta).nested) {
-      case 'array':
-        ;(resolvedFieldsMeta as any)[currentPath] = resolveFieldsMeta(fieldMeta.subfields, options, `${currentPath}[number]`)
-        break
+  /**
+   * Constructs a new FieldsMeta instance with the given options.
+   */
+  constructor(options: FieldsMetaOptions = {}) {
+    this.options = toMerged({
+      basePath: '',
+    }, options)
+  }
 
-      case 'object':
-        resolveFieldsMeta(fieldMeta.subfields, options, currentPath, resolvedFieldsMeta)
-        break
+  /**
+   * Resolves raw field metadata into a flattened structure with full paths.
+   */
+  resolve<
+    TFormData,
+    _TRawFieldsMeta extends RawFieldsMeta<TFormData, TFieldType, TFieldExtends> = RawFieldsMeta<TFormData, TFieldType, TFieldExtends>,
+    _TResolvedFieldsMeta extends ResolvedFieldsMeta<_TRawFieldsMeta, TFieldType, TFieldExtends> = ResolvedFieldsMeta<_TRawFieldsMeta, TFieldType, TFieldExtends>,
+  >(
+    raw: _TRawFieldsMeta,
+    options: FieldsMetaOptions = {},
+  ): _TResolvedFieldsMeta {
+    return this._resolve<
+      TFormData,
+      _TRawFieldsMeta,
+      _TResolvedFieldsMeta
+    >(raw, toMerged(this.options, options))
+  }
 
-      default:
-        {
-          const _meta = resolveFieldMeta(fieldMeta, key, parentPath)
-          ;(resolvedFieldsMeta as any)[_meta.fullName] = _meta
-        }
-        break
-    }
-  })
+  /**
+   * Private method to recursively resolve field metadata.
+   */
+  private _resolve<
+    TFormData,
+    _TRawFieldsMeta extends RawFieldsMeta<TFormData, TFieldType, TFieldExtends> = RawFieldsMeta<TFormData, TFieldType, TFieldExtends>,
+    _TResolvedFieldsMeta extends ResolvedFieldsMeta<_TRawFieldsMeta, TFieldType, TFieldExtends> = ResolvedFieldsMeta<_TRawFieldsMeta, TFieldType, TFieldExtends>,
+  >(
+    metas: _TRawFieldsMeta,
+    options: ResolvedFieldsMetaOptions = this.options,
+    resolvedFieldsMeta: _TResolvedFieldsMeta = {} as _TResolvedFieldsMeta,
+  ): _TResolvedFieldsMeta {
+    const {
+      basePath = '',
+    } = options
 
-  return resolvedFieldsMeta
-}
+    ;(Object.keys(metas) as Array<keyof TFormData & string>).forEach((key) => {
+      const meta = metas[key]
+      const currentPath = basePath ? `${basePath}.${String(key)}` : String(key)
 
-export function resolveFieldMeta<
-  TFieldKey,
-  TFieldValue,
-  TFieldType,
-  TFieldExtends,
-  _TReturn extends ResolvedFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends> = ResolvedFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends>,
->(
-  meta: FieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends>,
-  key?: TFieldKey,
-  parentPath?: string,
-): _TReturn {
-  const resolvedFieldMeta = structuredClone(meta) as _TReturn
+      /**
+       * Helper function to resolve basic field metadata.
+       */
+      function _resolveBasic(): any {
+        const resolvedFieldMeta = cloneDeepWith(meta, (v, k, _o, stack) => {
+          // Directly return the schema without cloning
+          if (k === 'schema' && stack.size === 1) {
+            return v
+          }
+        })
 
-  resolvedFieldMeta.name ??= key
+        return toMerged(resolvedFieldMeta, {
+          name: key,
+          fullName: currentPath,
+        })
+      }
 
-  const fieldName = String(resolvedFieldMeta.name ?? '')
-  const fullName = parentPath ? `${parentPath}.${fieldName}` : fieldName
+      switch (meta.nested) {
+        case 'array':
+          {
+            const _meta = _resolveBasic()
+            if ('subfields' in meta && meta.subfields) {
+              _meta.subfields = this._resolve(
+                meta.subfields as any,
+                toMerged(options, { basePath: `${currentPath}[number]` }),
+              )
+            }
+            ;(resolvedFieldsMeta as any)[currentPath] = _meta
+          }
+          break
 
-  resolvedFieldMeta.fullName = fullName
+        case 'object':
+          if ('subfields' in meta && meta.subfields) {
+            // For object type, directly merge subfields into the current resolvedFieldsMeta
+            const subResult = this._resolve(
+              meta.subfields as any,
+              toMerged(options, { basePath: currentPath }),
+            )
+            Object.assign(resolvedFieldsMeta, subResult)
+          }
+          break
 
-  return resolvedFieldMeta
+        default:
+          {
+            const _meta = _resolveBasic()
+            ;(resolvedFieldsMeta as any)[_meta.fullName] = _meta
+          }
+          break
+      }
+    })
+
+    return resolvedFieldsMeta
+  }
 }
