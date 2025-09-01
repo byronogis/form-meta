@@ -1,3 +1,2 @@
-export function defineFormMeta(config: any): any {
-  return config
-}
+export { FieldsMeta } from './meta'
+export * from './type'
