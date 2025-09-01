@@ -3,7 +3,7 @@ import type {
   RawFieldsMeta,
   ResolvedFieldsMeta,
 } from './type'
-import { cloneDeepWith, toMerged } from 'es-toolkit'
+import { toMerged } from 'es-toolkit'
 
 /**
  * Options for configuring the FieldsMeta class.
@@ -85,14 +85,7 @@ export class FieldsMeta<
        * Helper function to resolve basic field metadata.
        */
       function _resolveBasic(): any {
-        const resolvedFieldMeta = cloneDeepWith(meta, (v, k, _o, stack) => {
-          // Directly return the schema without cloning
-          if (k === 'schema' && stack.size === 1) {
-            return v
-          }
-        })
-
-        return toMerged(resolvedFieldMeta, {
+        return toMerged(meta, {
           name: key,
           fullName: currentPath,
         })
