@@ -1,12 +1,17 @@
 import { describe, expect, it } from 'vitest'
-import { defineFormMeta } from '.'
+import { FieldsMeta } from '.'
 
-describe('form-meta', () => {
-  it('should define config', () => {
-    const _config = {}
-    const config = defineFormMeta(_config)
+describe('form-meta index', () => {
+  it('should export FieldsMeta class', () => {
+    expect(FieldsMeta).toBeDefined()
+    expect(typeof FieldsMeta).toBe('function')
+  })
 
-    expect(config).toBeDefined()
-    expect(config).toEqual(_config)
+  it('should be able to create FieldsMeta instance', () => {
+    const fieldsMeta = new FieldsMeta()
+    expect(fieldsMeta).toBeInstanceOf(FieldsMeta)
+    expect(fieldsMeta.options).toBeDefined()
+    expect(fieldsMeta.resolve).toBeDefined()
+    expect(typeof fieldsMeta.resolve).toBe('function')
   })
 })

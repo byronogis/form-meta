@@ -1,7 +1,7 @@
 {
   "name": "form-meta",
   "type": "module",
-  "version": "0.0.1-beta.1",
+  "version": "1.0.0",
   "description": "_description_",
   "author": "Byron <byronogis@outlook.com>",
   "license": "MIT",
@@ -45,7 +45,12 @@
     "test": "vitest",
     "clear": "rimraf dist"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@standard-schema/spec": "^1.0.0",
+    "es-toolkit": "^1.39.10",
+    "type-fest": "^4.41.0",
+    "zod": "^4.0.17"
+  },
   "devDependencies": {
     "typescript": "catalog:deps"
   }

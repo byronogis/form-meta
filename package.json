@@ -1,7 +1,7 @@
 {
   "name": "@form-meta/monorepo",
   "type": "module",
-  "version": "0.0.1-beta.1",
+  "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.14.0",
   "description": "_description_",
@@ -23,7 +23,7 @@
     "root:lint": "eslint .",
     "root:lint:fix": "eslint . --fix",
     "typecheck": "pnpm run -r typecheck",
-    "test": "pnpm run -r test",
+    "test": "pnpm run -F'./packages/form-meta' test",
     "clear": "pnpm run -r clear && rimraf -g '**/node_modules' '**/coverage'",
     "prepare": "simple-git-hooks"
   },
