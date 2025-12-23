@@ -33,7 +33,12 @@ export class FieldsMeta<
       purge: [],
       flatten: [],
     } satisfies ResolvedFieldsMetaOptions & DefaultResolveFieldsMetaOptions, options)
-    const { flatten, purge, fullNameFormatter } = options_
+    const {
+      flatten,
+      purge,
+      fullNameFormatter,
+      parentCircleReferences,
+    } = options_
 
     for (const key in raw) {
       const meta = raw[key]
@@ -46,7 +51,9 @@ export class FieldsMeta<
         name: key,
         fullName,
         path: [...parent_?.path || [], key],
-        parent: parent_,
+        parent: parentCircleReferences
+          ? parent_
+          : parent_ ? { ...parent_ } : null,
       } satisfies ResolvedFieldMeta<RawFieldsMeta<any, TFieldType, TFieldExtends>, any, any, TFieldType, TFieldExtends, TResolveFieldsMetaOptions_>
 
       const nested = meta_.nested
@@ -80,6 +87,7 @@ export class FieldsMeta<
   }
 
   private resolveOptions(options: FieldsMetaOptions, defaults: ResolvedFieldsMetaOptions = {
+    parentCircleReferences: true,
     fullNameFormatter: this.defaultFullNameFormatter,
   }): ResolvedFieldsMetaOptions {
     return {
@@ -122,6 +130,14 @@ export class FieldsMeta<
 
 interface FieldsMetaOptions {
   /**
+   * Whether to maintain parent circle references in resolved field meta.
+   *
+   * @default true
+   */
+  parentCircleReferences?: boolean
+  /**
+   * Formatter function for generating full field names.
+   *
    * @default defaultFullNameFormatter
    */
   fullNameFormatter?: (name: string, parent?: ResolvedFieldMeta<any, any, any, any, any, any> | null) => ResolvedCommonFieldMeta<any, any, any>['fullName']

@@ -7,10 +7,14 @@ import type {
 
 export interface ResolveFieldsMetaOptions {
   /**
+   * Fields with these nested types will have their subfields flattened into the parent level.
+   *
    * @default []
    */
   flatten?: ('array' | 'object')[]
   /**
+   * Fields with these nested types will be removed from the resolved fields meta.
+   *
    * @default []
    */
   purge?: ('array' | 'object')[]
