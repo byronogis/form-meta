@@ -1,17 +1,20 @@
 import type { RawFieldsMeta, ResolveFieldsMetaOptions } from '../src/index.ts'
 import { describe, expect, it } from 'vitest'
+import { z } from 'zod'
 import { FieldsMeta } from '../src/index.ts'
 
-type TestFieldType = 'input' | 'inputnumber' | 'select'
+export type TestFieldType = 'input' | 'inputnumber' | 'select'
 
-interface TestFieldExtends {
+export interface TestFieldExtends {
   disabled?: boolean
   placeholder?: string
+  label?: string
+  options?: Array<{ label: string, value: any }>
 }
 
 export const fieldsMeta = new FieldsMeta<TestFieldType, TestFieldExtends>()
 
-interface TestFieldsData {
+export interface TestFieldsData {
   title: string
   subtitle?: string
   author: {
@@ -25,7 +28,7 @@ interface TestFieldsData {
       footnote?: string
     }>
   }>
-  layout: {
+  layout?: {
     blocks: Array<{
       blockType: string
       components: Array<{
@@ -39,7 +42,7 @@ interface TestFieldsData {
 type TestFields = RawFieldsMeta<TestFieldsData, TestFieldType, TestFieldExtends>
 
 export const rawFieldsMeta = {
-  title: { type: 'input' },
+  title: { type: 'input', schema: z.string().min(1) },
   subtitle: { type: 'input' },
   author: {
     nested: 'object',
@@ -75,7 +78,12 @@ export const rawFieldsMeta = {
               config: {
                 nested: 'object',
                 subfields: {
-                  enabled: { type: 'select' },
+                  enabled: { type: 'select', extends: {
+                    options: [
+                      { label: 'Enabled', value: true },
+                      { label: 'Disabled', value: false },
+                    ],
+                  } },
                 },
               },
             },

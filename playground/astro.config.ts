@@ -1,9 +1,11 @@
 import starlight from '@astrojs/starlight'
+import vue from '@astrojs/vue'
 import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    vue(),
     starlight({
       title: 'Form Meta',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/byronogis/form-meta' }],
