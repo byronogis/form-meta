@@ -1,9 +1,5 @@
 {
-  "extends": "@form-meta/typescript-config/tsconfig.base.json",
-  "compilerOptions": {
-    "lib": ["ESNext", "DOM"]
-  },
-  "include": [
-    "src"
-  ]
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
 }

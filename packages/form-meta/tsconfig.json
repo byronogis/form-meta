@@ -1,6 +1,7 @@
 {
   "extends": "@form-meta/typescript-config/tsconfig.base.json",
   "include": [
-    "src"
+    "src",
+    "test"
   ]
 }

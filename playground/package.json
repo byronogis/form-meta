@@ -1,26 +1,20 @@
 {
   "name": "playground",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/vue": "^5.1.0",
-    "@nuxt/ui": "4.0.0-alpha.0",
-    "@tailwindcss/vite": "^4.1.12",
-    "@tanstack/vue-form": "^1.19.3",
-    "astro": "^5.13.5",
-    "form-meta": "workspace:*",
-    "tailwindcss": "^4.1.12",
-    "typescript": "~5.6.0",
-    "unocss": "^66.5.0",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.1"
+    "@astrojs/react": "catalog:playground",
+    "@astrojs/starlight": "catalog:playground",
+    "@astrojs/vue": "catalog:playground",
+    "@tanstack/vue-form": "catalog:playground",
+    "astro": "catalog:playground",
+    "sharp": "catalog:playground"
   }
 }
