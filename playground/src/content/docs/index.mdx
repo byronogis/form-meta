@@ -1,0 +1,44 @@
+---
+title: form-meta
+description: Type-safe form field meta resolver with flatten/purge for nested schemas
+template: splash
+hero:
+  tagline: Type-safe field meta → UI-ready configs
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: Quickstart
+      link: /guides/quickstart/
+      icon: right-arrow
+    - text: API reference
+      link: /reference/fields-meta/
+      icon: document
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+## What is form-meta?
+
+Define nested forms with type-safe raw meta, then resolve to a field table with `name`/`path`/`fullName`/`parent` ready for UI and validation.
+
+<CardGrid stagger>
+  <Card title="Flatten & purge" icon="tune">
+    Flatten or drop object/array wrappers to get the field shape you want.
+  </Card>
+  <Card title="Full name helpers" icon="code-block">
+    Auto-generate indexed paths for arrays (e.g. sections[2].paragraphs[3].text).
+  </Card>
+  <Card title="Schema friendly" icon="checkmark">
+    Accepts Standard Schema v1 (Zod/Valibot/Yup etc.) on `schema` for validation.
+  </Card>
+  <Card title="Playground" icon="rocket">
+    See TanStack Form + Vue rendering the resolved fields in the example page.
+  </Card>
+</CardGrid>
+
+## Get started
+
+- Read [Quickstart](/guides/quickstart/) to define raw meta and resolve options.
+- Need details? Check [FieldsMeta reference](/reference/fields-meta/).
+- Want to see it live? Run the playground demo.

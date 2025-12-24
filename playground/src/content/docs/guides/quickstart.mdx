@@ -1,0 +1,81 @@
+---
+title: Quickstart
+description: Define raw field meta and resolve it into UI-ready configs.
+---
+
+## Install
+
+```bash
+pnpm add form-meta
+# or: npm i form-meta / yarn add form-meta
+```
+
+## Define raw meta
+
+`RawFieldsMeta` is tied to your form data type. Use `nested + subfields` for objects/arrays and attach `type`, `schema`, and custom `extends`.
+
+```ts
+import { z } from 'zod'
+import { FieldsMeta } from 'form-meta'
+import type { RawFieldsMeta } from 'form-meta'
+
+type FieldType = 'input' | 'select'
+interface FieldExtends {
+  label?: string
+  placeholder?: string
+}
+
+interface ArticleForm {
+  title: string
+  sections: Array<{ heading: string; body: string }>
+}
+
+type ArticleFields = RawFieldsMeta<ArticleForm, FieldType, FieldExtends>
+
+const rawFieldsMeta: ArticleFields = {
+  title: {
+    type: 'input',
+    schema: z.string().min(1, { message: 'Required' }),
+    extends: { label: 'Title' },
+  },
+  sections: {
+    nested: 'array',
+    subfields: {
+      heading: { type: 'input', extends: { label: 'Heading' } },
+      body: { type: 'input', extends: { label: 'Body' } },
+    },
+  },
+}
+```
+
+## Resolve into UI-ready fields
+
+`flatten` lifts child fields of objects/arrays into dotted keys; `purge` removes those wrapper nodes. Resolved fields include `name`, `path`, `fullName`, and `parent`.
+
+```ts
+const fm = new FieldsMeta<FieldType, FieldExtends>()
+
+const resolved = fm.resolve(rawFieldsMeta, {
+  flatten: ['object', 'array'],
+  purge: ['object'],
+  parentCircleReferences: false,
+})
+
+// resolved keys: ['title', 'sections', 'sections.heading', 'sections.body']
+// resolved['sections.heading'].fullName(2) -> "sections[2].heading"
+```
+
+## Hook into a form library
+
+- Use `field.fullName(...indices)` as the form field name (pass indices for array items).
+- `field.schema` plugs into validation (Standard Schema v1).
+- `field.extends` carries UI config like label/placeholder/options.
+
+In the playground, TanStack Form + Vue renders array fields dynamically. See `src/components/Vue/Form.vue`, `FormField.vue`, `FormFieldArray.vue`.
+
+## Common options
+
+- `flatten: ('object' | 'array')[]`: flatten specified nested types using dotted keys.
+- `purge: ('object' | 'array')[]`: drop specified nested nodes (children can remain).
+- `parentCircleReferences: boolean`: keep `parent` circular refs (default true).
+- `fullNameFormatter`: customize path generation.

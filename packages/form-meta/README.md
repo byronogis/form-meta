@@ -13,14 +13,7 @@
 
 [![JSDocs][jsdocs-src]][jsdocs-href]
 
-_description_
-
-> [!NOTE]
->
-> Rename `packages/form-meta`.
->
-> Replace `form-meta`, `_description_` and `byronogis` globally to use this template.
->
+Type-safe form field meta resolver with flatten/purge for nested schemas
 
 ## Installation
 
@@ -37,13 +30,13 @@ npm install form-meta
 yarn add form-meta
 
 # pnpm
-pnpm install form-meta
+pnpm add form-meta
 
 # bun
 bun install form-meta
 
 # deno
-deno install form-meta
+deno install npm:form-meta
 ```
 
 <!-- /automd -->
@@ -96,7 +89,7 @@ Made by [@byronogis](https://github.com/byronogis) and [community](https://githu
 
 ---
 
-_🤖 auto updated with [automd](https://automd.unjs.io) (last updated: Mon Aug 18 2025)_
+_🤖 auto updated with [automd](https://automd.unjs.io) (last updated: Wed Dec 24 2025)_
 
 <!-- /automd -->
 

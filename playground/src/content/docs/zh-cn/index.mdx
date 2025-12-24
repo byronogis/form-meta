@@ -1,0 +1,44 @@
+---
+title: form-meta
+description: 类型安全的表单字段元数据解析器，支持嵌套 flatten/purge
+template: splash
+hero:
+  tagline: 类型安全字段元数据 → UI 就绪配置
+  image:
+    file: ../../../assets/houston.webp
+  actions:
+    - text: 快速上手
+      link: /zh-cn/guides/quickstart/
+      icon: right-arrow
+    - text: API 参考
+      link: /zh-cn/reference/fields-meta/
+      icon: document
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+## form-meta 是什么？
+
+用类型安全的 raw meta 描述嵌套表单，解析后得到带 `name`/`path`/`fullName`/`parent` 的字段表，直接用于表单 UI 与校验。
+
+<CardGrid stagger>
+	<Card title="Flatten & purge" icon="tune">
+		按需展开或裁剪对象/数组嵌套，拿到需要的字段形态。
+	</Card>
+	<Card title="Full name helpers" icon="code-block">
+		自动生成带索引的路径，便于注册数组字段（如 sections[2].paragraphs[3].text）。
+	</Card>
+	<Card title="Schema friendly" icon="checkmark">
+		支持 Standard Schema v1（Zod/Valibot/Yup 等）直接用作校验。
+	</Card>
+	<Card title="Playground" icon="rocket">
+		在示例页面用 TanStack Form + Vue 动态渲染解析后的字段。
+	</Card>
+</CardGrid>
+
+## 开始使用
+
+- 阅读 [快速上手](/zh-cn/guides/quickstart/) 了解 raw meta 与解析选项。
+- 需要 API 细节？看 [FieldsMeta 参考](/zh-cn/reference/fields-meta/)。
+- 想看实际效果？运行 playground demo。

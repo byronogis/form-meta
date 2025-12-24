@@ -3,6 +3,10 @@ import antfu from '@antfu/eslint-config'
 export default antfu(
   {
     type: 'lib',
+    astro: true,
+    react: true,
+    vue: true,
+    stylistic: true,
   },
   {
     rules: {
@@ -18,6 +22,7 @@ export default antfu(
        * @see https://eslint.org/docs/latest/rules/no-unused-expressions
        */
       'ts/no-unused-expressions': 'warn',
+      'ts/explicit-function-return-type': 'warn',
 
       /**
        * @see https://eslint.org/docs/latest/rules/prefer-promise-reject-errors
@@ -33,6 +38,8 @@ export default antfu(
       'curly': ['error', 'all'],
       '@stylistic/max-statements-per-line': ['error', { max: 1 }],
       '@stylistic/brace-style': ['error', 'stroustrup'],
+
+      'yaml/sort-keys': 'off',
     },
   },
 )

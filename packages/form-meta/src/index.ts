@@ -1,2 +1,2 @@
-export { FieldsMeta } from './meta'
-export * from './type'
+export { FieldsMeta } from './field.ts'
+export type * from './types/field/index.ts'

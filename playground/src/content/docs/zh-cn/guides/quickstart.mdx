@@ -1,0 +1,81 @@
+---
+title: 快速上手
+description: 定义 raw 字段元数据并解析为可直接用于表单的配置。
+---
+
+## 安装
+
+```bash
+pnpm add form-meta
+# 或 npm i form-meta / yarn add form-meta
+```
+
+## 定义 raw meta
+
+`RawFieldsMeta` 与表单数据类型绑定，嵌套对象/数组用 `nested + subfields` 描述，字段可挂 `type`、`schema`、自定义 `extends`。
+
+```ts
+import { z } from 'zod'
+import { FieldsMeta } from 'form-meta'
+import type { RawFieldsMeta } from 'form-meta'
+
+type FieldType = 'input' | 'select'
+interface FieldExtends {
+  label?: string
+  placeholder?: string
+}
+
+interface ArticleForm {
+  title: string
+  sections: Array<{ heading: string; body: string }>
+}
+
+type ArticleFields = RawFieldsMeta<ArticleForm, FieldType, FieldExtends>
+
+const rawFieldsMeta: ArticleFields = {
+  title: {
+    type: 'input',
+    schema: z.string().min(1, { message: 'Required' }),
+    extends: { label: 'Title' },
+  },
+  sections: {
+    nested: 'array',
+    subfields: {
+      heading: { type: 'input', extends: { label: 'Heading' } },
+      body: { type: 'input', extends: { label: 'Body' } },
+    },
+  },
+}
+```
+
+## 解析为 UI 就绪字段
+
+`flatten` 控制把对象/数组子字段提升为点路径键；`purge` 控制移除哪些嵌套节点本身。解析结果带 `name`、`path`、`fullName`、`parent`。
+
+```ts
+const fm = new FieldsMeta<FieldType, FieldExtends>()
+
+const resolved = fm.resolve(rawFieldsMeta, {
+  flatten: ['object', 'array'],
+  purge: ['object'],
+  parentCircleReferences: false,
+})
+
+// resolved keys: ['title', 'sections', 'sections.heading', 'sections.body']
+// resolved['sections.heading'].fullName(2) -> "sections[2].heading"
+```
+
+## 接入表单库
+
+- 使用 `field.fullName(...indices)` 作为表单库字段名（数组项传索引）。
+- `field.schema` 可直接做校验（Standard Schema v1）。
+- `field.extends` 放 UI 配置（label/placeholder/options 等）。
+
+Playground 中用 TanStack Form + Vue 动态渲染数组字段，示例在 `src/components/Vue`。
+
+## 常用选项
+
+- `flatten: ('object' | 'array')[]`：展开指定嵌套，使用点路径键。
+- `purge: ('object' | 'array')[]`：移除指定嵌套节点（子字段可保留）。
+- `parentCircleReferences: boolean`：是否保留 `parent` 的循环引用（默认 true）。
+- `fullNameFormatter`：自定义路径生成。
