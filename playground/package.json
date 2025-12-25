@@ -19,6 +19,5 @@
     "astro": "catalog:playground",
     "sharp": "catalog:playground",
     "unocss": "catalog:playground"
-
   }
 }

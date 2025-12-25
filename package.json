@@ -3,7 +3,7 @@
   "type": "module",
   "version": "2.0.3",
   "private": true,
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@10.26.2",
   "description": "Type-safe form field meta resolver with flatten/purge for nested schemas",
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "typecheck": "pnpm run -r typecheck",
     "test": "vitest",
     "clear": "pnpm run -r clear && rimraf -g '**/node_modules' '**/coverage'",
+    "update": "npx taze -r -I latest",
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
