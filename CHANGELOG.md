@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v2.0.4
+
+[compare changes](https://github.com/byronogis/form-meta/compare/v2.0.3...v2.0.4)
+
+### 📖 Documentation
+
+- Update ([645204f](https://github.com/byronogis/form-meta/commit/645204f))
+
+### 🏡 Chore
+
+- Update pkg info ([2b58d7b](https://github.com/byronogis/form-meta/commit/2b58d7b))
+- Update deps ([a05702e](https://github.com/byronogis/form-meta/commit/a05702e))
+- **playground:** @tanstack/react-form ([5b328ba](https://github.com/byronogis/form-meta/commit/5b328ba))
+
+### ✅ Tests
+
+- Package exports ([6632c4a](https://github.com/byronogis/form-meta/commit/6632c4a))
+
+### ❤️ Contributors
+
+- Byronogis ([@byronogis](https://github.com/byronogis))
+
 ## v2.0.3
 
 [compare changes](https://github.com/byronogis/form-meta/compare/v2.0.2...v2.0.3)
