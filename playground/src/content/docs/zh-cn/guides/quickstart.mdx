@@ -56,6 +56,12 @@ const rawFieldsMeta: ArticleFields = {
 const fm = new FieldsMeta<FieldType, FieldExtends>()
 
 const resolved = fm.resolve(rawFieldsMeta, {
+  /**
+   * 平时你可能只需要展开 'object' 类型的嵌套。
+   *
+   * 如果你有固定数量的数组项，或许定义带索引键的 'object' 是更好的选择。
+   */
+  */
   flatten: ['object', 'array'],
   purge: ['object'],
   parentCircleReferences: false,

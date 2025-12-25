@@ -56,6 +56,12 @@ const rawFieldsMeta: ArticleFields = {
 const fm = new FieldsMeta<FieldType, FieldExtends>()
 
 const resolved = fm.resolve(rawFieldsMeta, {
+  /**
+   * Usually you may just what to flatten 'object' nested types.
+   *
+   * And if you have a fixed number of array items, maybe define a 'object' with
+   * indexed keys instead is better.
+   */
   flatten: ['object', 'array'],
   purge: ['object'],
   parentCircleReferences: false,

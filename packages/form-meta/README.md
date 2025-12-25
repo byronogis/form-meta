@@ -43,9 +43,7 @@ deno install npm:form-meta
 
 ## Basic Usage
 
-```ts
-// usage
-```
+See [Documentation](https://byronogis.github.io/form-meta/)
 
 <!-- automd:fetch url="gh:byronogis/.github/main/snippets/readme-contrib-node-pnpm.md" -->
 
