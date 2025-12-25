@@ -5,6 +5,8 @@ import UnoCSS from 'unocss/astro'
 
 // https://astro.build/config
 export default defineConfig({
+  base: '/form-meta/',
+  site: 'https://byronogis.github.io/form-meta/',
   integrations: [
     vue(),
     UnoCSS(),
