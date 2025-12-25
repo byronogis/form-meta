@@ -9,10 +9,18 @@
   "homepage": "https://github.com/byronogis/form-meta#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/byronogis/form-meta.git"
+    "url": "git+https://github.com/byronogis/form-meta.git"
   },
   "bugs": "https://github.com/byronogis/form-meta/issues",
-  "keywords": [],
+  "keywords": [
+    "form",
+    "field",
+    "meta",
+    "nested",
+    "schema",
+    "flatten",
+    "purge"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public",
