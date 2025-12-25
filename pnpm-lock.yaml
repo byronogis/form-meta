@@ -91,9 +91,18 @@ catalogs:
     '@vitest/coverage-v8':
       specifier: ^4.0.15
       version: 4.0.15
+    tinyexec:
+      specifier: ^1.0.2
+      version: 1.0.2
     vitest:
       specifier: ^4.0.15
       version: 4.0.15
+    vitest-package-exports:
+      specifier: ^1.1.1
+      version: 1.1.1
+    yaml:
+      specifier: ^2.8.2
+      version: 2.8.2
   types:
     '@types/node':
       specifier: ^24.10.1
@@ -157,6 +166,9 @@ importers:
       simple-git-hooks:
         specifier: catalog:lint
         version: 2.13.1
+      tinyexec:
+        specifier: catalog:test
+        version: 1.0.2
       tinyglobby:
         specifier: catalog:deps
         version: 0.2.15
@@ -169,6 +181,12 @@ importers:
       vitest:
         specifier: catalog:test
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.8.2)
+      vitest-package-exports:
+        specifier: catalog:test
+        version: 1.1.1
+      yaml:
+        specifier: catalog:test
+        version: 2.8.2
       zod:
         specifier: catalog:deps
         version: 4.1.13
@@ -4810,6 +4828,9 @@ packages:
     peerDependenciesMeta:
       vite:
         optional: true
+
+  vitest-package-exports@1.1.1:
+    resolution: {integrity: sha512-62/lvkUK4PDHgAAOjstWQpQQjIVTQKPnd3Pak6hCPjlfIAV8o0a7xhzPNMF1tT7TWdQmcVFs1b9pr41ZiH75Xw==}
 
   vitest@4.0.15:
     resolution: {integrity: sha512-n1RxDp8UJm6N0IbJLQo+yzLZ2sQCDyl1o0LeugbPWf8+8Fttp29GghsQBjYJVmWq3gBFfe9Hs1spR44vovn2wA==}
@@ -10624,6 +10645,11 @@ snapshots:
   vitefu@1.1.1(vite@6.4.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.8.2)):
     optionalDependencies:
       vite: 6.4.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.8.2)
+
+  vitest-package-exports@1.1.1:
+    dependencies:
+      find-up-simple: 1.0.1
+      pathe: 2.0.3
 
   vitest@4.0.15(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.8.2):
     dependencies:
