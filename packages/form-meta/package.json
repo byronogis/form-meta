@@ -1,7 +1,7 @@
 {
   "name": "form-meta",
   "type": "module",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Type-safe form field meta resolver with flatten/purge for nested schemas",
   "author": "Byron <byronogis@outlook.com>",
   "license": "MIT",
