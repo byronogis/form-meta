@@ -15,7 +15,6 @@ catalogs:
     '@standard-schema/spec': ^1.0.0
     automd: ^0.4.2
     bumpp: ^10.3.2
-    es-toolkit: ^1.42.0
     jiti: ^2.6.1
     rimraf: ^6.1.2
     tinyglobby: ^0.2.15

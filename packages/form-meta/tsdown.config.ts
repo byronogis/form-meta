@@ -7,5 +7,7 @@ export default defineConfig({
   exports: {
     devExports: true,
   },
-  dts: true,
+  dts: {
+    resolve: ['@standard-schema/spec', 'type-fest'],
+  },
 })

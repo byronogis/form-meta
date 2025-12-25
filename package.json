@@ -47,7 +47,8 @@
     "tinyglobby": "catalog:deps",
     "tsdown": "catalog:build",
     "typescript": "catalog:deps",
-    "vitest": "catalog:test"
+    "vitest": "catalog:test",
+    "zod": "catalog:deps"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

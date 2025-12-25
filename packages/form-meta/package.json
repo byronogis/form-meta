@@ -40,13 +40,9 @@
     "typecheck": "tsc --noEmit",
     "clear": "rimraf dist"
   },
-  "dependencies": {
-    "@standard-schema/spec": "catalog:deps",
-    "es-toolkit": "catalog:deps",
-    "type-fest": "catalog:types",
-    "zod": "catalog:deps"
-  },
   "devDependencies": {
+    "@standard-schema/spec": "catalog:deps",
+    "type-fest": "catalog:types",
     "typescript": "catalog:deps"
   }
 }

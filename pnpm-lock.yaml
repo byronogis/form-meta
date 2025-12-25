@@ -19,9 +19,6 @@ catalogs:
     bumpp:
       specifier: ^10.3.2
       version: 10.3.2
-    es-toolkit:
-      specifier: ^1.42.0
-      version: 1.42.0
     jiti:
       specifier: ^2.6.1
       version: 2.6.1
@@ -172,22 +169,18 @@ importers:
       vitest:
         specifier: catalog:test
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.8.2)
-
-  packages/form-meta:
-    dependencies:
-      '@standard-schema/spec':
-        specifier: catalog:deps
-        version: 1.0.0
-      es-toolkit:
-        specifier: catalog:deps
-        version: 1.42.0
-      type-fest:
-        specifier: catalog:types
-        version: 5.3.1
       zod:
         specifier: catalog:deps
         version: 4.1.13
+
+  packages/form-meta:
     devDependencies:
+      '@standard-schema/spec':
+        specifier: catalog:deps
+        version: 1.0.0
+      type-fest:
+        specifier: catalog:types
+        version: 5.3.1
       typescript:
         specifier: catalog:deps
         version: 5.9.3
@@ -2583,9 +2576,6 @@ packages:
 
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
-
-  es-toolkit@1.42.0:
-    resolution: {integrity: sha512-SLHIyY7VfDJBM8clz4+T2oquwTQxEzu263AyhVK4jREOAwJ+8eebaa4wM3nlvnAqhDrMm2EsA6hWHaQsMPQ1nA==}
 
   esast-util-from-estree@2.0.0:
     resolution: {integrity: sha512-4CyanoAudUSBAn5K13H4JhsMH6L9ZP7XbLVe/dKybkxMO7eDyLsT8UHl9TRNrU2Gr9nz+FovfSIjuXWJ81uVwQ==}
@@ -7703,8 +7693,6 @@ snapshots:
   error-stack-parser-es@0.1.5: {}
 
   es-module-lexer@1.7.0: {}
-
-  es-toolkit@1.42.0: {}
 
   esast-util-from-estree@2.0.0:
     dependencies:
