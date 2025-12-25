@@ -1,3 +1,4 @@
+import react from '@astrojs/react'
 import starlight from '@astrojs/starlight'
 import vue from '@astrojs/vue'
 import { defineConfig } from 'astro/config'
@@ -9,6 +10,7 @@ export default defineConfig({
   site: 'https://byronogis.github.io/form-meta/',
   integrations: [
     vue(),
+    react(),
     UnoCSS(),
     starlight({
       title: 'Form Meta',

@@ -25,17 +25,16 @@ const { api, state } = useField({
 
 <template>
   <div
-    class="component-vue-from-field flex flex-col gap-2 relative"
+    class="component-form-field"
     :style="[{ 'grid-area': props.field.path.join('_') }]"
   >
-    <label :for="props.field.name" class="font-bold h-8">{{ props.field.extends?.label ?? props.field.name }}</label>
+    <label :for="props.field.name">{{ props.field.extends?.label ?? props.field.name }}</label>
 
     <template v-if="field.type! === 'input'">
       <input
         :id="props.field.name"
         :value="state.value"
         :placeholder="props.field.extends?.placeholder"
-        class="w-full rounded border border-gray-300 px-2 py-1 h-8"
         @input="(e) => api.setValue((e.target as HTMLInputElement).value)"
       >
     </template>
@@ -44,7 +43,6 @@ const { api, state } = useField({
       <select
         :id="props.field.name"
         :value="state.value"
-        class="w-full rounded border border-gray-300 px-2 py-1 h-8"
         @change="(e) => api.setValue((e.target as HTMLSelectElement).value)"
       >
         <option
@@ -57,8 +55,10 @@ const { api, state } = useField({
       </select>
     </template>
 
-    <small class="text-red-500 absolute bottom--6">{{ state.meta.errors.map(i => i?.message).join(', ') }}</small>
+    <small>{{ state.meta.errors.map(i => i?.message).join(', ') }}</small>
   </div>
 </template>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+@import '@/assets/styles/form/form-field.pcss';
+</style>

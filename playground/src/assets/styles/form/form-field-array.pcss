@@ -1,0 +1,35 @@
+.component-form-field-array {
+  display: grid;
+  gap: 0.5rem;
+  grid-template:
+    '_label _clear _add  ' 2rem
+    '_items _items _items' auto / 1fr auto auto;
+
+  > label {
+    @apply font-bold grid-area-\[\_label] self-center;
+  }
+
+  .component-form-field-array-items {
+    @apply grid-area-\[\_items] border border-base rounded p-2 gap-2 space-y-2;
+
+    > small {
+      @apply text-gray-500 text-center w-full block;
+    }
+  }
+
+  .component-form-field-array-item {
+    @apply grid gap-2 items-start;
+
+    > button._remove {
+      @apply grid-area-\[\_remove] self-end btn-red;
+    }
+  }
+
+  button._clear {
+    @apply grid-area-\[\_clear] btn-red;
+  }
+
+  button._add {
+    @apply grid-area-\[\_add] btn-blue;
+  }
+}

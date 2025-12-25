@@ -1,0 +1,16 @@
+.component-form-field {
+  @apply flex flex-col gap-2 relative;
+
+  > label {
+    @apply font-bold h-8;
+  }
+
+  input,
+  select {
+    @apply w-full rounded border border-gray-300 px-2 py-1 h-8;
+  }
+
+  > small {
+    @apply text-red-500 absolute bottom--6;
+  }
+}

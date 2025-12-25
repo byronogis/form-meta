@@ -34,7 +34,7 @@ provide('form', form)
 </script>
 
 <template>
-  <form class="component-vue-form grid gap-6 items-start" @submit.prevent.stop="form.handleSubmit">
+  <form class="component-form" @submit.prevent.stop="form.handleSubmit">
     <template
       v-for="field in props.fields"
       :key="field!.name"
@@ -58,10 +58,12 @@ provide('form', form)
       Reset
     </button> -->
 
-    <button type="submit" class="btn-blue" style="grid-area: _submit;">
+    <button type="submit" style="grid-area: _submit;">
       Submit
     </button>
   </form>
 </template>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+@import '@/assets/styles/form/form.pcss'
+</style>

@@ -15,7 +15,9 @@
     "@astrojs/starlight": "catalog:playground",
     "@astrojs/vue": "catalog:playground",
     "@iconify-json/lucide": "catalog:playground",
+    "@tanstack/react-form": "catalog:playground",
     "@tanstack/vue-form": "catalog:playground",
+    "@unocss/postcss": "catalog:playground",
     "astro": "catalog:playground",
     "sharp": "catalog:playground",
     "unocss": "catalog:playground"

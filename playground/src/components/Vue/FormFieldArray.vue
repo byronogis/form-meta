@@ -25,20 +25,20 @@ const { state, api } = useField({
 
 <template>
   <div
-    class="component-vue-form-field-array"
+    class="component-form-field-array"
     :style="[{ 'grid-area': props.field.path.join('_') }]"
   >
-    <label class="font-bold grid-area-[\_label] self-center">{{ props.field.extends?.label ?? props.field.name }}</label>
+    <label>{{ props.field.extends?.label ?? props.field.name }}</label>
 
-    <div class="grid-area-[\_items] border border-base rounded p-2 gap-2 space-y-2">
+    <div class="component-form-field-array-items">
       <template v-if="!(state.value as [])?.length">
-        <small class="text-gray-500 text-center w-full block">No items added.</small>
+        <small>No items added.</small>
       </template>
 
       <div
         v-for="(i, idx) in state.value"
         :key="idx"
-        class="component-vue-form-field-array-item grid gap-2 items-start"
+        class="component-form-field-array-item"
         :class="[`${props.field.path.join('_')}-item`]"
       >
         <template v-for="j in field.subfields" :key="j!.name">
@@ -53,7 +53,7 @@ const { state, api } = useField({
 
         <button
           type="button"
-          class="grid-area-[\_remove] self-end btn-red"
+          class="_remove"
           label="Remove"
           @click="api.removeValue(idx)"
         >
@@ -64,7 +64,7 @@ const { state, api } = useField({
 
     <button
       type="button"
-      class="grid-area-[\_clear] btn-red"
+      class="_clear"
       @click="api.clearValues()"
     >
       Clear
@@ -72,7 +72,7 @@ const { state, api } = useField({
 
     <button
       type="button"
-      class="grid-area-[\_add] btn-blue"
+      class="_add"
       @click="api.pushValue({} as never)"
     >
       Add
@@ -81,11 +81,5 @@ const { state, api } = useField({
 </template>
 
 <style scoped lang="postcss">
-.component-vue-form-field-array {
-  display: grid;
-  gap: 0.5rem;
-  grid-template:
-    '_label _clear _add  ' 2rem
-    '_items _items _items' auto / 1fr auto auto;
-}
+@import '@/assets/styles/form/form-field-array.pcss';
 </style>
