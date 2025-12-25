@@ -37,7 +37,7 @@
     "start": "jiti src/index.ts",
     "automd": "automd README.md",
     "prepublishOnly": "pnpm run build",
-    "release": "pnpm publish",
+    "publish": "pnpm publish",
     "typecheck": "tsc --noEmit",
     "clear": "rimraf dist"
   },
