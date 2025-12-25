@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v2.0.3
+
+[compare changes](https://github.com/byronogis/form-meta/compare/v2.0.2...v2.0.3)
+
+### 🏡 Chore
+
+- **playground:** Setting base url ([d1ba68a](https://github.com/byronogis/form-meta/commit/d1ba68a))
+- Clear unused dep and bundle external type ([bf69b32](https://github.com/byronogis/form-meta/commit/bf69b32))
+
+### ❤️ Contributors
+
+- Byronogis ([@byronogis](https://github.com/byronogis))
+
 ## v2.0.2
 
 [compare changes](https://github.com/byronogis/form-meta/compare/v2.0.1...v2.0.2)
