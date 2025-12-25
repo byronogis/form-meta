@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.0.2
+
+[compare changes](https://github.com/byronogis/form-meta/compare/v2.0.1...v2.0.2)
+
+### 🤖 CI
+
+- Remove unused script ([963f1f3](https://github.com/byronogis/form-meta/commit/963f1f3))
+
+### ❤️ Contributors
+
+- Byronogis ([@byronogis](https://github.com/byronogis))
+
 ## v2.0.1
 
 [compare changes](https://github.com/byronogis/form-meta/compare/v2.0.0...v2.0.1)
