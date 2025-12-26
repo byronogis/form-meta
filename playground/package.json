@@ -8,9 +8,11 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "typecheck": "astro check",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "catalog:playground",
     "@astrojs/react": "catalog:playground",
     "@astrojs/starlight": "catalog:playground",
     "@astrojs/vue": "catalog:playground",

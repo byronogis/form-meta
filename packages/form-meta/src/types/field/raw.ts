@@ -8,7 +8,7 @@ export type RawFieldsMeta<
   TFieldType,
   TFieldExtends,
   TTopFormData = TFormData,
-  TClosestFieldArrayValue = never,
+  TClosestFieldArrayValue = unknown[],
 > = {
   [K in Exclude<keyof TFormData, OptionalKeys<TFormData>>]: RawFieldMeta<K, TFormData[K], TFieldType, TFieldExtends, TTopFormData, TClosestFieldArrayValue>
 } & {
@@ -20,14 +20,21 @@ export type RawFieldMeta<
   TFieldValue,
   TFieldType,
   TFieldExtends,
-  TTopFormData = unknown,
-  TClosestFieldArrayValue = never,
+  TTopFormData,
+  TClosestFieldArrayValue = unknown[],
 >
   = | PrimitiveFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData, TClosestFieldArrayValue>
     | ArrayFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData, TClosestFieldArrayValue>
     | ObjectFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData, TClosestFieldArrayValue>
 
-export interface CommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends, TTopFormData = unknown, TClosestFieldArrayValue = unknown> {
+export interface CommonFieldMeta<
+  TFieldKey,
+  TFieldValue,
+  _TFieldType,
+  TFieldExtends,
+  TTopFormData,
+  TClosestFieldArrayValue = unknown[],
+> {
   /**
    * The name of the field.
    *
@@ -83,9 +90,9 @@ type PrimitiveFieldMeta<
   TFieldValue,
   TFieldType,
   TFieldExtends,
-  TTopFormData = unknown,
-  TClosestFieldArrayValue = never,
-> = CommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends, TTopFormData, TClosestFieldArrayValue> & {
+  TTopFormData,
+  TClosestFieldArrayValue = unknown[],
+> = CommonFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData, TClosestFieldArrayValue> & {
   type: TFieldType
   nested?: never
   subfields?: never
@@ -96,9 +103,9 @@ type ArrayFieldMeta<
   TFieldValue,
   TFieldType,
   TFieldExtends,
-  TTopFormData = unknown,
-  TClosestFieldArrayValue = never,
-> = CommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends, TTopFormData, TClosestFieldArrayValue> & {
+  TTopFormData,
+  TClosestFieldArrayValue = unknown[],
+> = CommonFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData, TClosestFieldArrayValue> & {
   type?: never
   nested: 'array'
   subfields: TFieldValue extends Array<infer U>
@@ -111,9 +118,9 @@ type ObjectFieldMeta<
   TFieldValue,
   TFieldType,
   TFieldExtends,
-  TTopFormData = TFieldValue,
-  TClosestFieldArrayValue = never,
-> = CommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends, TTopFormData, TClosestFieldArrayValue> & {
+  TTopFormData,
+  TClosestFieldArrayValue = unknown[],
+> = CommonFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData, TClosestFieldArrayValue> & {
   type?: never
   nested: 'object'
   subfields: TFieldValue extends Record<string, any>

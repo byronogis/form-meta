@@ -21,11 +21,11 @@ export class FieldsMeta<
     TFormData_,
     TResolveFieldsMetaOptions_ extends ResolveFieldsMetaOptions = ResolveFieldsMetaOptions,
     TRawFieldsMeta_ extends RawFieldsMeta<TFormData_, TFieldType, TFieldExtends> = RawFieldsMeta<TFormData_, TFieldType, TFieldExtends>,
-    TResolvedFieldsMeta_ extends ResolvedFieldsMeta<TRawFieldsMeta_, TFieldType, TFieldExtends, TResolveFieldsMetaOptions_> = ResolvedFieldsMeta<TRawFieldsMeta_, TFieldType, TFieldExtends, TResolveFieldsMetaOptions_>,
+    TResolvedFieldsMeta_ extends ResolvedFieldsMeta<TRawFieldsMeta_, TFieldType, TFieldExtends, TFormData_, TResolveFieldsMetaOptions_> = ResolvedFieldsMeta<TRawFieldsMeta_, TFieldType, TFieldExtends, TFormData_, TResolveFieldsMetaOptions_>,
   >(
     raw: TRawFieldsMeta_,
     options?: FieldsMetaOptions & TResolveFieldsMetaOptions_,
-    parent_: ResolvedFieldMeta<any, any, any, any, any, any> | null = null,
+    parent_: ResolvedFieldMeta<any, any, any, any, any, any, any> | null = null,
     resolved_: TResolvedFieldsMeta_ = {} as TResolvedFieldsMeta_,
   ): TResolvedFieldsMeta_ {
     const options_: Required<FieldsMetaOptions & ResolveFieldsMetaOptions> = Object.assign({}, {
@@ -54,7 +54,7 @@ export class FieldsMeta<
         parent: parentCircleReferences
           ? parent_
           : parent_ ? { ...parent_ } : null,
-      } satisfies ResolvedFieldMeta<RawFieldsMeta<any, TFieldType, TFieldExtends>, any, any, TFieldType, TFieldExtends, TResolveFieldsMetaOptions_>
+      } satisfies ResolvedFieldMeta<RawFieldsMeta<any, TFieldType, TFieldExtends>, any, any, TFieldType, TFieldExtends, TFormData_, TResolveFieldsMetaOptions_>
 
       const nested = meta_.nested
 
@@ -140,7 +140,7 @@ interface FieldsMetaOptions {
    *
    * @default defaultFullNameFormatter
    */
-  fullNameFormatter?: (name: string, parent?: ResolvedFieldMeta<any, any, any, any, any, any> | null) => ResolvedCommonFieldMeta<any, any, any>['fullName']
+  fullNameFormatter?: (name: string, parent?: ResolvedFieldMeta<any, any, any, any, any, any, any> | null) => ResolvedCommonFieldMeta<any, any, any, any, any>['fullName']
 }
 
 type ResolvedFieldsMetaOptions = Required<FieldsMetaOptions>

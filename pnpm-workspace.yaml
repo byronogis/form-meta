@@ -31,6 +31,7 @@ catalogs:
     prettier-plugin-astro: 0.14.1
     simple-git-hooks: ^2.13.1
   playground:
+    '@astrojs/check': ^0.9.6
     '@astrojs/react': ^4.4.2
     '@astrojs/starlight': ^0.37.1
     '@astrojs/vue': ^5.1.3

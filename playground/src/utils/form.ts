@@ -10,6 +10,7 @@ export type TestResolvedFieldMeta<V = any> = ResolvedFieldMeta<
   V,
   TestFieldType,
   TestFieldExtends,
+  any,
   {
     flatten: ['object']
     purge: ['object']
@@ -20,6 +21,7 @@ export type TestResolvedFieldsMeta = ResolvedFieldsMeta<
   any,
   TestFieldType,
   TestFieldExtends,
+  any,
   {
     flatten: ['object']
     purge: ['object']

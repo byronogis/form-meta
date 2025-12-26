@@ -52,7 +52,7 @@ test('fields resolved keys type should match expected keys', () => {
     fields: any
     value: unknown
     values: unknown
-    closestArrayValue: unknown
+    closestArrayValue: never
     indices: number[]
   }]>
 })

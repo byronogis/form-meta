@@ -25,20 +25,22 @@ export interface DefaultResolveFieldsMetaOptions {
   purge: []
 }
 
-export type AnyResolvedFieldMeta = ResolvedFieldMeta<any, any, any, any, any, any>
-export type AnyResolvedFieldsMeta = ResolvedFieldsMeta<any, any, any, any>
+export type AnyResolvedFieldMeta = ResolvedFieldMeta<any, any, any, any, any, any, any>
+export type AnyResolvedFieldsMeta = ResolvedFieldsMeta<any, any, any, any, any>
 
 export type ResolvedFieldsMeta<
   TRawFieldsMeta extends RawFieldsMeta<any, any, any>,
   TFieldType,
   TFieldExtends,
+  TTopFormData,
   TResolveFieldsMetaOptions extends ResolveFieldsMetaOptions,
-> = ResolvedFieldsMeta_<TRawFieldsMeta, TFieldType, TFieldExtends, ApplyDefaultOptions<ResolveFieldsMetaOptions, DefaultResolveFieldsMetaOptions, TResolveFieldsMetaOptions>>
+> = ResolvedFieldsMeta_<TRawFieldsMeta, TFieldType, TFieldExtends, TTopFormData, ApplyDefaultOptions<ResolveFieldsMetaOptions, DefaultResolveFieldsMetaOptions, TResolveFieldsMetaOptions>>
 
 type ResolvedFieldsMeta_<
   TRawFieldsMeta extends RawFieldsMeta<any, any, any>,
   TFieldType,
   TFieldExtends,
+  TTopFormData,
   TResolveFieldsMetaOptions extends Required<ResolveFieldsMetaOptions>,
   TPrefix extends string = '',
 > = {
@@ -46,14 +48,15 @@ type ResolvedFieldsMeta_<
     ? never
     : FieldKey<TPrefix, K, TResolveFieldsMetaOptions>
   ]?: NonNullable<TRawFieldsMeta[K]> extends { nested: 'array' }
-    ? ResolvedArrayFieldMeta<NonNullable<TRawFieldsMeta[K]>['subfields'], K, NonNullable<TRawFieldsMeta[K]>['value'], TFieldType, TFieldExtends, TResolveFieldsMetaOptions, JoinPath<TPrefix, K>>
+    ? ResolvedArrayFieldMeta<NonNullable<TRawFieldsMeta[K]>['subfields'], K, NonNullable<TRawFieldsMeta[K]>['value'], TFieldType, TFieldExtends, TTopFormData, TResolveFieldsMetaOptions, JoinPath<TPrefix, K>>
     : NonNullable<TRawFieldsMeta[K]> extends { nested: 'object' }
-      ? ResolvedObjectFieldMeta<NonNullable<TRawFieldsMeta[K]>['subfields'], K, NonNullable<TRawFieldsMeta[K]>['value'], TFieldType, TFieldExtends, TResolveFieldsMetaOptions, JoinPath<TPrefix, K>>
-      : ResolvedPrimitiveFieldMeta<K, NonNullable<TRawFieldsMeta[K]>['value'], TFieldType, TFieldExtends>
+      ? ResolvedObjectFieldMeta<NonNullable<TRawFieldsMeta[K]>['subfields'], K, NonNullable<TRawFieldsMeta[K]>['value'], TFieldType, TFieldExtends, TTopFormData, TResolveFieldsMetaOptions, JoinPath<TPrefix, K>>
+      : ResolvedPrimitiveFieldMeta<K, NonNullable<TRawFieldsMeta[K]>['value'], TFieldType, TFieldExtends, TTopFormData>
 } & FlattenedSubfields<
   TRawFieldsMeta,
   TFieldType,
   TFieldExtends,
+  TTopFormData,
   TResolveFieldsMetaOptions,
   TPrefix
 >
@@ -64,13 +67,20 @@ export type ResolvedFieldMeta<
   TFieldValue,
   TFieldType,
   TFieldExtends,
+  TTopFormData,
   TResolveFieldsMetaOptions extends ResolveFieldsMetaOptions,
 >
-  = | ResolvedPrimitiveFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends>
-    | ResolvedArrayFieldMeta<TRawFieldsMeta, TFieldKey, TFieldValue, TFieldType, TFieldExtends, ApplyDefaultOptions<ResolveFieldsMetaOptions, DefaultResolveFieldsMetaOptions, TResolveFieldsMetaOptions>>
-    | ResolvedObjectFieldMeta<TRawFieldsMeta, TFieldKey, TFieldValue, TFieldType, TFieldExtends, ApplyDefaultOptions<ResolveFieldsMetaOptions, DefaultResolveFieldsMetaOptions, TResolveFieldsMetaOptions>>
+  = | ResolvedPrimitiveFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData>
+    | ResolvedArrayFieldMeta<TRawFieldsMeta, TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData, ApplyDefaultOptions<ResolveFieldsMetaOptions, DefaultResolveFieldsMetaOptions, TResolveFieldsMetaOptions>>
+    | ResolvedObjectFieldMeta<TRawFieldsMeta, TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData, ApplyDefaultOptions<ResolveFieldsMetaOptions, DefaultResolveFieldsMetaOptions, TResolveFieldsMetaOptions>>
 
-export interface ResolvedCommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends> extends SetRequired<CommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends>, 'name'> {
+export interface ResolvedCommonFieldMeta<
+  TFieldKey,
+  TFieldValue,
+  TFieldType,
+  TFieldExtends,
+  TTopFormData,
+> extends SetRequired<CommonFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData>, 'name'> {
   /**
    * The full name of the field, including all parent field names and array indices.
    */
@@ -90,7 +100,8 @@ export type ResolvedPrimitiveFieldMeta<
   TFieldValue,
   TFieldType,
   TFieldExtends,
-> = ResolvedCommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends> & {
+  TTopFormData,
+> = ResolvedCommonFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData> & {
   type: TFieldType
   nested?: never
   subfields?: never
@@ -102,12 +113,13 @@ type ResolvedArrayFieldMeta<
   TFieldValue,
   TFieldType,
   TFieldExtends,
+  TTopFormData,
   TResolveFieldsMetaOptions extends Required<ResolveFieldsMetaOptions>,
   TPrefix extends string = '',
-> = ResolvedCommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends> & {
+> = ResolvedCommonFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData> & {
   type?: never
   nested: 'array'
-  subfields: ResolvedFieldsMeta_<TRawFieldsMeta, TFieldType, TFieldExtends, TResolveFieldsMetaOptions, TPrefix>
+  subfields: ResolvedFieldsMeta_<TRawFieldsMeta, TFieldType, TFieldExtends, TTopFormData, TResolveFieldsMetaOptions, TPrefix>
 }
 
 type ResolvedObjectFieldMeta<
@@ -116,12 +128,13 @@ type ResolvedObjectFieldMeta<
   TFieldValue,
   TFieldType,
   TFieldExtends,
+  TTopFormData,
   TResolveFieldsMetaOptions extends Required<ResolveFieldsMetaOptions>,
   TPrefix extends string = '',
-> = ResolvedCommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends> & {
+> = ResolvedCommonFieldMeta<TFieldKey, TFieldValue, TFieldType, TFieldExtends, TTopFormData> & {
   type?: never
   nested: 'object'
-  subfields: ResolvedFieldsMeta_<TRawFieldsMeta, TFieldType, TFieldExtends, TResolveFieldsMetaOptions, TPrefix>
+  subfields: ResolvedFieldsMeta_<TRawFieldsMeta, TFieldType, TFieldExtends, TTopFormData, TResolveFieldsMetaOptions, TPrefix>
 }
 
 type IsFlattenEnabled<TOptions extends Required<ResolveFieldsMetaOptions>>
@@ -139,6 +152,7 @@ type FlattenedSubfields<
   TRawFieldsMeta extends RawFieldsMeta<any, any, any>,
   TFieldType,
   TFieldExtends,
+  TTopFormData,
   TResolveFieldsMetaOptions extends Required<ResolveFieldsMetaOptions>,
   TPrefix extends string,
 > = UnionToIntersection<{
@@ -150,6 +164,7 @@ type FlattenedSubfields<
           TSubfields,
           TFieldType,
           TFieldExtends,
+          TTopFormData,
           TResolveFieldsMetaOptions,
           JoinPath<TPrefix, K>
         >
