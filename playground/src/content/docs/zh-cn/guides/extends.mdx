@@ -1,0 +1,94 @@
+---
+title: Extends
+description: 在字段元数据中通过 extends 扩展自定义配置
+---
+
+
+`extends` 用于给字段元数据追加自定义信息，支持静态对象, 或者一个接收上下文参数的函数
+
+`extends` 的返回值类型由 FieldExtends 泛型控制，确保与预期的自定义字段属性一致
+
+## 类型定义
+
+```ts
+(arg: {
+	/**
+   * The current field meta.
+   */
+  field: AnyResolvedFieldMeta
+  /**
+   * All fields meta in the form.
+   */
+  fields: AnyResolvedFieldsMeta
+  /**
+   * Current field value.
+   */
+  value: TFieldValue
+  /**
+   * Full form values.
+   */
+  values: TTopFormData
+  /**
+   * Closest array value if the field is inside an array.
+   */
+  closestArrayValue?: TClosestFieldArrayValue
+  /**
+   * The indices of the array(s) that this field is in.
+   */
+  indices: number[]
+}) => TFieldExtends
+```
+
+## 使用形式
+
+### 直接传递对象
+
+```ts
+const meta = defineFields({
+	username: {
+		type: 'input',
+		schema: string(),
+		extends: {
+			label: '用户名',
+			icon: 'i-lucide-user',
+		},
+	},
+})
+```
+
+### 使用函数动态生成
+
+```ts
+const meta = defineFields({
+	age: {
+		type: 'input',
+		schema: number(),
+		extends({ value }) {
+			return {
+				label: '年龄',
+				tone: value >= 60 ? 'warning' : 'normal',
+			}
+		},
+	},
+})
+```
+
+## 在数组字段中使用
+
+`indices` 和 `closestArrayValue` 可帮助你根据所在项做定制：
+
+```ts
+const meta = defineFields({
+	items: {
+		nested: 'array',
+		subfields: {
+			name: {
+				type: 'input',
+				extends({ indices }) {
+					return { label: `Item ${indices.at(-1)! + 1}` }
+				},
+			},
+		},
+	},
+})
+```

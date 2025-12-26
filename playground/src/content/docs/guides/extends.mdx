@@ -1,0 +1,93 @@
+---
+title: Extends
+description: Extend field metadata with custom config via extends
+---
+
+`extends` lets you add custom info to field metadata. It accepts either a static object or a function that receives context.
+
+The return type of `extends` is governed by the FieldExtends generic to match your custom field shape.
+
+## Type definition
+
+```ts
+(arg: {
+	/**
+   * The current field meta.
+   */
+  field: AnyResolvedFieldMeta
+  /**
+   * All fields meta in the form.
+   */
+  fields: AnyResolvedFieldsMeta
+  /**
+   * Current field value.
+   */
+  value: TFieldValue
+  /**
+   * Full form values.
+   */
+  values: TTopFormData
+  /**
+   * Closest array value if the field is inside an array.
+   */
+  closestArrayValue?: TClosestFieldArrayValue
+  /**
+   * The indices of the array(s) that this field is in.
+   */
+  indices: number[]
+}) => TFieldExtends
+```
+
+## Usage
+
+### Static object
+
+```ts
+const meta = defineFields({
+	username: {
+		type: 'input',
+		schema: string(),
+		extends: {
+			label: 'Username',
+			icon: 'i-lucide-user',
+		},
+	},
+})
+```
+
+### Dynamic function
+
+```ts
+const meta = defineFields({
+	age: {
+		type: 'input',
+		schema: number(),
+		extends({ value }) {
+			return {
+				label: 'Age',
+				tone: value >= 60 ? 'warning' : 'normal',
+			}
+		},
+	},
+})
+```
+
+## In array fields
+
+Use `indices` and `closestArrayValue` to tailor per item:
+
+```ts
+const meta = defineFields({
+	items: {
+		nested: 'array',
+		subfields: {
+			name: {
+				type: 'input',
+				extends({ indices }) {
+					return { label: `Item ${indices.at(-1)! + 1}` }
+				},
+			},
+		},
+	},
+})
+```
