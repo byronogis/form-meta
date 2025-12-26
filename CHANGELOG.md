@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.1
+
+[compare changes](https://github.com/byronogis/form-meta/compare/v2.1.0...v2.1.1)
+
+### 🩹 Fixes
+
+- Type ([1f0865f](https://github.com/byronogis/form-meta/commit/1f0865f))
+
+### ❤️ Contributors
+
+- Byronogis ([@byronogis](https://github.com/byronogis))
+
 ## v2.1.0
 
 [compare changes](https://github.com/byronogis/form-meta/compare/v2.0.4...v2.1.0)
