@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v2.1.0
+
+[compare changes](https://github.com/byronogis/form-meta/compare/v2.0.4...v2.1.0)
+
+### 🚀 Enhancements
+
+- Extends functional now to make condition convenient ([e0eade3](https://github.com/byronogis/form-meta/commit/e0eade3))
+
+### 📖 Documentation
+
+- Extends ([29fc0c7](https://github.com/byronogis/form-meta/commit/29fc0c7))
+
+### 🏡 Chore
+
+- **playground:** Condition value ([a585ef1](https://github.com/byronogis/form-meta/commit/a585ef1))
+
+### ❤️ Contributors
+
+- Byronogis ([@byronogis](https://github.com/byronogis))
+
 ## v2.0.4
 
 [compare changes](https://github.com/byronogis/form-meta/compare/v2.0.3...v2.0.4)
