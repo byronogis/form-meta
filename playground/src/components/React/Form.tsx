@@ -5,7 +5,15 @@ import '@/assets/styles/form/form.pcss'
 import '@/assets/styles/form/form-field.pcss'
 import '@/assets/styles/form/form-field-array.pcss'
 
-const FormContext = createContext<ReturnType<typeof useForm>>({} as any)
+const FormContext = createContext<{
+  form: ReturnType<typeof useForm>
+  fields: TestResolvedFieldsMeta
+  values: unknown
+}>({} as any)
+
+const FormFieldArrayContext = createContext<{
+  arrayValue: unknown[]
+}>({} as any)
 
 export function Form<FS extends TestResolvedFieldsMeta>(props: {
   fields: FS
@@ -26,7 +34,12 @@ export function Form<FS extends TestResolvedFieldsMeta>(props: {
   })
 
   return (
-    <FormContext value={form}>
+    <FormContext value={{
+      form,
+      fields: props.fields,
+      values: props.modelValue,
+    }}
+    >
       <form
         className="component-form"
         onSubmit={(e) => {
@@ -62,7 +75,8 @@ export function FormField<F extends TestResolvedFieldMeta>({
   indices?: number[]
   field: F
 }) {
-  const form = use(FormContext)
+  const { form, fields, values } = use(FormContext)
+  const { arrayValue } = use(FormFieldArrayContext)
 
   const { state, handleChange } = useField({
     name: field.fullName(...indices),
@@ -83,6 +97,14 @@ export function FormField<F extends TestResolvedFieldMeta>({
         <input
           id={field.name}
           value={state.value as any}
+          disabled={field.extends?.disabled?.({
+            field,
+            fields,
+            value: state.value,
+            values,
+            arrayValue,
+            indices,
+          })}
           onChange={e => handleChange(e.target.value)}
         />
       )}
@@ -91,6 +113,14 @@ export function FormField<F extends TestResolvedFieldMeta>({
         <select
           id={field.name}
           value={state.value as any}
+          disabled={field.extends?.disabled?.({
+            field,
+            fields,
+            value: state.value,
+            values,
+            arrayValue,
+            indices,
+          })}
           onChange={e => handleChange(e.target.value)}
         >
           {field.extends?.options?.map(option => (
@@ -114,7 +144,7 @@ export function FormFieldArray<F extends TestResolvedFieldMeta<Array<TestResolve
   indices?: number[]
   field: F
 }) {
-  const form = use(FormContext)
+  const { form } = use(FormContext)
 
   const { state, removeValue, pushValue, clearValues } = useField({
     name: field.fullName(...indices),
@@ -123,64 +153,70 @@ export function FormFieldArray<F extends TestResolvedFieldMeta<Array<TestResolve
   })
 
   return (
-    <div
-      className="component-form-field-array"
-      style={{ gridArea: field.path.join('_') }}
+    <FormFieldArrayContext
+      value={{
+        arrayValue: state.value as unknown[],
+      }}
     >
-      <label>{field.extends?.label ?? field.name}</label>
+      <div
+        className="component-form-field-array"
+        style={{ gridArea: field.path.join('_') }}
+      >
+        <label>{field.extends?.label ?? field.name}</label>
 
-      <div className="component-form-field-array-items">
-        {!(state.value as [])?.length && (
-          <small>No items added.</small>
-        )}
+        <div className="component-form-field-array-items">
+          {!(state.value as [])?.length && (
+            <small>No items added.</small>
+          )}
 
-        {(state.value as [])?.map((i, idx) => (
-          <div
-            className={[
-              'component-form-field-array-item',
-              `${field.path.join('_')}-item`,
-            ].join(' ')}
-            key={idx}
-          >
-            {Object.values(field.subfields ?? {}).map(j => (
-              <React.Fragment key={j!.name}>
-                {j?.nested === 'array'
-                  ? (
-                      <FormFieldArray field={j!} indices={[...indices, idx]} />
-                    )
-                  : (
-                      <FormField field={j!} indices={[...indices, idx]} />
-                    )}
+          {(state.value as [])?.map((i, idx) => (
+            <div
+              className={[
+                'component-form-field-array-item',
+                `${field.path.join('_')}-item`,
+              ].join(' ')}
+              key={idx}
+            >
+              {Object.values(field.subfields ?? {}).map(j => (
+                <React.Fragment key={j!.name}>
+                  {j?.nested === 'array'
+                    ? (
+                        <FormFieldArray field={j!} indices={[...indices, idx]} />
+                      )
+                    : (
+                        <FormField field={j!} indices={[...indices, idx]} />
+                      )}
 
-                <button
-                  type="button"
-                  className="_remove"
-                  onClick={() => removeValue(idx)}
-                >
-                  Remove
-                </button>
-              </React.Fragment>
-            ))}
-          </div>
-        ))}
+                  <button
+                    type="button"
+                    className="_remove"
+                    onClick={() => removeValue(idx)}
+                  >
+                    Remove
+                  </button>
+                </React.Fragment>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          className="_clear"
+          onClick={() => clearValues()}
+        >
+          Clear
+        </button>
+
+        <button
+          type="button"
+          className="_add"
+          onClick={() => pushValue({} as never)}
+        >
+          Add
+        </button>
+
       </div>
-
-      <button
-        type="button"
-        className="_clear"
-        onClick={() => clearValues()}
-      >
-        Clear
-      </button>
-
-      <button
-        type="button"
-        className="_add"
-        onClick={() => pushValue({} as never)}
-      >
-        Add
-      </button>
-
-    </div>
+    </FormFieldArrayContext>
   )
 }

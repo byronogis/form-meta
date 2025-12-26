@@ -1,4 +1,4 @@
-import type { RawFieldsMeta, ResolveFieldsMetaOptions } from '../src/index.ts'
+import type { AnyResolvedFieldMeta, AnyResolvedFieldsMeta, RawFieldsMeta, ResolveFieldsMetaOptions } from '../src/index.ts'
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
 import { FieldsMeta } from '../src/index.ts'
@@ -6,7 +6,14 @@ import { FieldsMeta } from '../src/index.ts'
 export type TestFieldType = 'input' | 'inputnumber' | 'select'
 
 export interface TestFieldExtends {
-  disabled?: boolean
+  disabled?: (arg: {
+    field: AnyResolvedFieldMeta
+    fields: AnyResolvedFieldsMeta
+    value: any
+    values: any
+    arrayValue?: any[]
+    indices: number[]
+  }) => boolean
   placeholder?: string
   label?: string
   options?: Array<{ label: string, value: any }>
@@ -128,6 +135,15 @@ export const rawFieldsMeta = {
                 type: 'input',
                 extends: {
                   label: 'Type',
+                  disabled({
+                    arrayValue,
+                    indices,
+                  }) {
+                    const res = arrayValue?.[indices.at(-1)!]?.config?.enabled === 'false'
+                    // eslint-disable-next-line prefer-rest-params
+                    console.info({ arguments, res })
+                    return res
+                  },
                 },
               },
               config: {
@@ -138,8 +154,8 @@ export const rawFieldsMeta = {
                     extends: {
                       label: 'Enabled',
                       options: [
-                        { label: 'Enabled', value: true },
-                        { label: 'Disabled', value: false },
+                        { label: 'Enabled', value: 'true' },
+                        { label: 'Disabled', value: 'false' },
                       ],
                     },
                   },

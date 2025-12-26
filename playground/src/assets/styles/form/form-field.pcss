@@ -8,6 +8,10 @@
   input,
   select {
     @apply w-full rounded border border-gray-300 px-2 py-1 h-8;
+
+    &:disabled {
+      @apply bg-gray-100 cursor-not-allowed;
+    }
   }
 
   > small {

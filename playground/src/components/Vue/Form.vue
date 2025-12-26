@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="FS extends TestResolvedFieldsMeta">
 import type { TestResolvedFieldsMeta } from '@/utils/form'
 import { useForm } from '@tanstack/vue-form'
-import { provide } from 'vue'
+import { computed, provide } from 'vue'
 import FormField from './FormField.vue'
 import FormFieldArray from './FormFieldArray.vue'
 
@@ -31,6 +31,8 @@ const form = useForm({
 })
 
 provide('form', form)
+provide('fields', computed(() => props.fields))
+provide('values', computed(() => props.modelValue))
 </script>
 
 <template>

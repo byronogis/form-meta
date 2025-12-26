@@ -2,7 +2,7 @@
 import type { useForm } from '@tanstack/vue-form'
 import type { TestResolvedFieldMeta } from '@/utils/form'
 import { useField } from '@tanstack/vue-form'
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 
 const props = withDefaults(defineProps<{
   indices?: number[]
@@ -12,6 +12,9 @@ const props = withDefaults(defineProps<{
 })
 
 const form = inject<ReturnType<typeof useForm>>('form', {} as any)
+const fields = inject<any>('fields', ref({}))
+const values = inject<any>('values', ref({}))
+const arrayValue = inject<any>('arrayValue', ref(undefined))
 
 const { api, state } = useField({
   name: props.field.fullName(...props.indices),
@@ -35,6 +38,14 @@ const { api, state } = useField({
         :id="props.field.name"
         :value="state.value"
         :placeholder="props.field.extends?.placeholder"
+        :disabled="props.field.extends?.disabled?.({
+          field,
+          fields,
+          value: state.value,
+          values,
+          arrayValue,
+          indices: props.indices,
+        })"
         @input="(e) => api.setValue((e.target as HTMLInputElement).value)"
       >
     </template>
@@ -43,6 +54,14 @@ const { api, state } = useField({
       <select
         :id="props.field.name"
         :value="state.value"
+        :disabled="props.field.extends?.disabled?.({
+          field,
+          fields,
+          value: state.value,
+          values,
+          arrayValue,
+          indices: props.indices,
+        })"
         @change="(e) => api.setValue((e.target as HTMLSelectElement).value)"
       >
         <option

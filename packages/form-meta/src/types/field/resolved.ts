@@ -25,6 +25,9 @@ export interface DefaultResolveFieldsMetaOptions {
   purge: []
 }
 
+export type AnyResolvedFieldMeta = ResolvedFieldMeta<any, any, any, any, any, any>
+export type AnyResolvedFieldsMeta = ResolvedFieldsMeta<any, any, any, any>
+
 export type ResolvedFieldsMeta<
   TRawFieldsMeta extends RawFieldsMeta<any, any, any>,
   TFieldType,
@@ -79,7 +82,7 @@ export interface ResolvedCommonFieldMeta<TFieldKey, TFieldValue, TFieldExtends> 
   /**
    * The parent field meta. Null if this field is the root field.
    */
-  parent: ResolvedFieldMeta<any, any, any, any, any, any> | null
+  parent: AnyResolvedFieldMeta | null
 }
 
 export type ResolvedPrimitiveFieldMeta<

@@ -2,7 +2,7 @@
 import type { useForm } from '@tanstack/vue-form'
 import type { TestResolvedFieldMeta } from '@/utils/form'
 import { useField } from '@tanstack/vue-form'
-import { inject } from 'vue'
+import { computed, inject, provide, ref } from 'vue'
 import FormField from './FormField.vue'
 import FormFieldArray from './FormFieldArray.vue'
 
@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<{
 })
 
 const form = inject<ReturnType<typeof useForm>>('form', {} as any)
+const _values = inject<any>('values', ref({}))
 
 const { state, api } = useField({
   name: props.field.fullName(...props.indices),
@@ -21,6 +22,8 @@ const { state, api } = useField({
   // defaultValue: props.field.extends?.defaultValue,
   mode: 'array',
 })
+
+provide('arrayValue', computed(() => state.value.value))
 </script>
 
 <template>
