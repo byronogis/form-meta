@@ -1,4 +1,5 @@
 /* eslint-disable unused-imports/no-unused-vars */
+import type { FnPart } from '../src/types/helper.ts'
 import { expectTypeOf, test } from 'vitest'
 import { fieldsMeta, optionsKeys, rawFieldsMeta } from './field.test.ts'
 
@@ -44,4 +45,14 @@ test('fields resolved keys type should match expected keys', () => {
 
   const resolved13 = fieldsMeta.resolve(rawFieldsMeta, optionsKeys[13][0])
   expectTypeOf<keyof typeof resolved13>().toEqualTypeOf<typeof optionsKeys[13][1][number]>()
+  type ExtendFn = FnPart<NonNullable<NonNullable<typeof resolved13['layout.blocks.components.config.enabled']>['extends']>>
+  // eslint-disable-next-line ts/no-unused-expressions
+  expectTypeOf<ExtendFn>().parameters.toEqualTypeOf<[{
+    field: any
+    fields: any
+    value: unknown
+    values: unknown
+    closestArrayValue: unknown
+    indices: number[]
+  }]>
 })

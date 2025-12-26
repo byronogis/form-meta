@@ -1,4 +1,4 @@
-import type { AnyResolvedFieldMeta, AnyResolvedFieldsMeta, RawFieldsMeta, ResolveFieldsMetaOptions } from '../src/index.ts'
+import type { RawFieldsMeta, ResolveFieldsMetaOptions } from '../src/index.ts'
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
 import { FieldsMeta } from '../src/index.ts'
@@ -6,14 +6,7 @@ import { FieldsMeta } from '../src/index.ts'
 export type TestFieldType = 'input' | 'inputnumber' | 'select'
 
 export interface TestFieldExtends {
-  disabled?: (arg: {
-    field: AnyResolvedFieldMeta
-    fields: AnyResolvedFieldsMeta
-    value: any
-    values: any
-    arrayValue?: any[]
-    indices: number[]
-  }) => boolean
+  disabled?: boolean
   placeholder?: string
   label?: string
   options?: Array<{ label: string, value: any }>
@@ -41,7 +34,7 @@ export interface TestFieldsData {
       blockType: string
       components: Array<{
         componentType: string
-        config?: { enabled: boolean }
+        config?: { enabled: '0' | '1' }
       }>
     }>
   }
@@ -133,17 +126,13 @@ export const rawFieldsMeta = {
             subfields: {
               componentType: {
                 type: 'input',
-                extends: {
-                  label: 'Type',
-                  disabled({
-                    arrayValue,
-                    indices,
-                  }) {
-                    const res = arrayValue?.[indices.at(-1)!]?.config?.enabled === 'false'
-                    // eslint-disable-next-line prefer-rest-params
-                    console.info({ arguments, res })
-                    return res
-                  },
+                extends({ closestArrayValue, indices, values, field, fields, value }) {
+                  console.info('extends', { closestArrayValue, indices, values, field, fields, value })
+
+                  return {
+                    label: 'Type',
+                    disabled: closestArrayValue?.[indices.at(-1)!]?.config?.enabled === '0',
+                  }
                 },
               },
               config: {
@@ -154,8 +143,8 @@ export const rawFieldsMeta = {
                     extends: {
                       label: 'Enabled',
                       options: [
-                        { label: 'Enabled', value: 'true' },
-                        { label: 'Disabled', value: 'false' },
+                        { label: 'Enabled', value: '1' },
+                        { label: 'Disabled', value: '0' },
                       ],
                     },
                   },

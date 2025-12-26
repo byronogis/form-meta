@@ -62,3 +62,8 @@ export type StringKeys<T> = Extract<keyof T, string>
  */
 export type UnionToIntersection<U>
   = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+
+/**
+ * Extract the function part of a type.
+ */
+export type FnPart<U> = U extends (...args: any[]) => any ? U : never

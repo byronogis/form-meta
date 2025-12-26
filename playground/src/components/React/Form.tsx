@@ -12,7 +12,7 @@ const FormContext = createContext<{
 }>({} as any)
 
 const FormFieldArrayContext = createContext<{
-  arrayValue: unknown[]
+  closestArrayValue: unknown[]
 }>({} as any)
 
 export function Form<FS extends TestResolvedFieldsMeta>(props: {
@@ -76,7 +76,7 @@ export function FormField<F extends TestResolvedFieldMeta>({
   field: F
 }) {
   const { form, fields, values } = use(FormContext)
-  const { arrayValue } = use(FormFieldArrayContext)
+  const { closestArrayValue } = use(FormFieldArrayContext)
 
   const { state, handleChange } = useField({
     name: field.fullName(...indices),
@@ -86,25 +86,29 @@ export function FormField<F extends TestResolvedFieldMeta>({
     },
   })
 
+  const extends_ = typeof field.extends === 'function'
+    ? field.extends({
+        field,
+        fields,
+        value: state.value,
+        values,
+        closestArrayValue,
+        indices,
+      })
+    : field.extends
+
   return (
     <div
       className="component-form-field"
       style={{ gridArea: field.path.join('_') }}
     >
-      <label htmlFor={field.name}>{field.extends?.label ?? field.name}</label>
+      <label htmlFor={field.name}>{extends_?.label ?? field.name}</label>
 
       {field.type === 'input' && (
         <input
           id={field.name}
           value={state.value as any}
-          disabled={field.extends?.disabled?.({
-            field,
-            fields,
-            value: state.value,
-            values,
-            arrayValue,
-            indices,
-          })}
+          disabled={extends_?.disabled}
           onChange={e => handleChange(e.target.value)}
         />
       )}
@@ -113,17 +117,10 @@ export function FormField<F extends TestResolvedFieldMeta>({
         <select
           id={field.name}
           value={state.value as any}
-          disabled={field.extends?.disabled?.({
-            field,
-            fields,
-            value: state.value,
-            values,
-            arrayValue,
-            indices,
-          })}
+          disabled={extends_?.disabled}
           onChange={e => handleChange(e.target.value)}
         >
-          {field.extends?.options?.map(option => (
+          {extends_?.options?.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
@@ -144,7 +141,8 @@ export function FormFieldArray<F extends TestResolvedFieldMeta<Array<TestResolve
   indices?: number[]
   field: F
 }) {
-  const { form } = use(FormContext)
+  const { form, fields, values } = use(FormContext)
+  const { closestArrayValue } = use(FormFieldArrayContext)
 
   const { state, removeValue, pushValue, clearValues } = useField({
     name: field.fullName(...indices),
@@ -152,17 +150,28 @@ export function FormFieldArray<F extends TestResolvedFieldMeta<Array<TestResolve
     mode: 'array',
   })
 
+  const extends_ = typeof field.extends === 'function'
+    ? field.extends({
+        field,
+        fields,
+        value: state.value as unknown as any[],
+        values,
+        closestArrayValue,
+        indices,
+      })
+    : field.extends
+
   return (
     <FormFieldArrayContext
       value={{
-        arrayValue: state.value as unknown[],
+        closestArrayValue: state.value as unknown[],
       }}
     >
       <div
         className="component-form-field-array"
         style={{ gridArea: field.path.join('_') }}
       >
-        <label>{field.extends?.label ?? field.name}</label>
+        <label>{extends_?.label ?? field.name}</label>
 
         <div className="component-form-field-array-items">
           {!(state.value as [])?.length && (

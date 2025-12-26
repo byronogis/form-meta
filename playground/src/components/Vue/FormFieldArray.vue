@@ -14,7 +14,9 @@ const props = withDefaults(defineProps<{
 })
 
 const form = inject<ReturnType<typeof useForm>>('form', {} as any)
-const _values = inject<any>('values', ref({}))
+const fields = inject<any>('fields', ref({}))
+const values = inject<any>('values', ref({}))
+const closestArrayValue = inject<any>('closestArrayValue', ref(undefined))
 
 const { state, api } = useField({
   name: props.field.fullName(...props.indices),
@@ -23,7 +25,20 @@ const { state, api } = useField({
   mode: 'array',
 })
 
-provide('arrayValue', computed(() => state.value.value))
+const extends_ = computed(() => {
+  return typeof props.field.extends === 'function'
+    ? props.field.extends({
+        field: props.field,
+        fields: fields.value,
+        value: state.value as unknown as any[],
+        values: values.value,
+        closestArrayValue: closestArrayValue?.value,
+        indices: props.indices,
+      })
+    : props.field.extends
+})
+
+provide('closestArrayValue', computed(() => state.value.value))
 </script>
 
 <template>
@@ -31,7 +46,7 @@ provide('arrayValue', computed(() => state.value.value))
     class="component-form-field-array"
     :style="[{ 'grid-area': props.field.path.join('_') }]"
   >
-    <label>{{ props.field.extends?.label ?? props.field.name }}</label>
+    <label>{{ extends_?.label ?? props.field.name }}</label>
 
     <div class="component-form-field-array-items">
       <template v-if="!(state.value as [])?.length">
