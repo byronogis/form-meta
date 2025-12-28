@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TestFieldsData } from '@/utils/form'
 import { ref } from 'vue'
-import Form from '@/components/Vue/Form.vue'
+import Form from '@/components/Vue/VeeValidate/Form.vue'
 import { fm } from '@/utils/form'
 
 const data = ref<TestFieldsData>({

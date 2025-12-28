@@ -42,6 +42,7 @@ catalogs:
     astro: ^5.16.6
     sharp: ^0.34.5
     unocss: ^66.5.10
+    vee-validate: 5.0.0-beta.0
   test:
     '@vitest/coverage-v8': ^4.0.16
     tinyexec: ^1.0.2

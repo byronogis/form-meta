@@ -1,10 +1,10 @@
 import type { TestFieldsData } from '@/utils/form'
 import React, { useState } from 'react'
+import { Form } from '@/components/React/Tanstack/Form.tsx'
 import { fm } from '@/utils/form'
-import { Form } from './React/Form.tsx'
 import '@/assets/styles/example.pcss'
 
-export function ExampleReact() {
+export function Tanstack() {
   const [data, setData] = useState<TestFieldsData>({
     title: '',
     subtitle: '',
