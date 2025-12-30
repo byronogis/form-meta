@@ -40,6 +40,7 @@
     "eslint-plugin-astro": "catalog:lint",
     "eslint-plugin-react-hooks": "catalog:lint",
     "eslint-plugin-react-refresh": "catalog:lint",
+    "eslint-plugin-svelte": "catalog:lint",
     "jiti": "catalog:deps",
     "lint-staged": "catalog:lint",
     "prettier-plugin-astro": "catalog:lint",

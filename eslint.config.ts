@@ -6,6 +6,7 @@ export default antfu(
     astro: true,
     react: true,
     vue: true,
+    svelte: true,
     stylistic: true,
   },
   {

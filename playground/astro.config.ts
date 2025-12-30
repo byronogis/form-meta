@@ -1,5 +1,6 @@
 import react from '@astrojs/react'
 import starlight from '@astrojs/starlight'
+import svelte from '@astrojs/svelte'
 import vue from '@astrojs/vue'
 import { defineConfig } from 'astro/config'
 import UnoCSS from 'unocss/astro'
@@ -11,6 +12,7 @@ export default defineConfig({
   integrations: [
     vue(),
     react(),
+    svelte(),
     UnoCSS(),
     starlight({
       title: 'Form Meta',

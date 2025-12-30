@@ -1,0 +1,13 @@
+---
+title: Svelte
+---
+
+import Tanstack from '@/components/Example/Svelte/Tanstack.svelte'
+import { Tabs, TabItem  } from '@astrojs/starlight/components'
+
+
+<Tabs>
+  <TabItem label="@tanstack/svelte-form">
+    <Tanstack client:load />
+  </TabItem>
+</Tabs>
