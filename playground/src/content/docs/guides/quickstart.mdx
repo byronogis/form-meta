@@ -32,7 +32,7 @@ interface ArticleForm {
 
 type ArticleFields = RawFieldsMeta<ArticleForm, FieldType, FieldExtends>
 
-const rawFieldsMeta: ArticleFields = {
+const rawFieldsMeta = {
   title: {
     type: 'input',
     schema: z.string().min(1, { message: 'Required' }),
@@ -45,7 +45,7 @@ const rawFieldsMeta: ArticleFields = {
       body: { type: 'input', extends: { label: 'Body' } },
     },
   },
-}
+} satisfies ArticleFields
 ```
 
 ## Resolve into UI-ready fields
