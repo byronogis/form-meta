@@ -14,11 +14,13 @@
   "dependencies": {
     "@astrojs/check": "catalog:playground",
     "@astrojs/react": "catalog:playground",
+    "@astrojs/solid-js": "catalog:playground",
     "@astrojs/starlight": "catalog:playground",
     "@astrojs/svelte": "catalog:playground",
     "@astrojs/vue": "catalog:playground",
     "@iconify-json/lucide": "catalog:playground",
     "@tanstack/react-form": "catalog:playground",
+    "@tanstack/solid-form": "catalog:playground",
     "@tanstack/svelte-form": "catalog:playground",
     "@tanstack/vue-form": "catalog:playground",
     "@unocss/postcss": "catalog:playground",

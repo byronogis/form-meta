@@ -1,4 +1,5 @@
 import react from '@astrojs/react'
+import solidJs from '@astrojs/solid-js'
 import starlight from '@astrojs/starlight'
 import svelte from '@astrojs/svelte'
 import vue from '@astrojs/vue'
@@ -11,8 +12,13 @@ export default defineConfig({
   site: 'https://byronogis.github.io/form-meta/',
   integrations: [
     vue(),
-    react(),
+    react({
+      include: ['**/React/**/*'],
+    }),
     svelte(),
+    solidJs({
+      include: ['**/Solid/**/*'],
+    }),
     UnoCSS(),
     starlight({
       title: 'Form Meta',

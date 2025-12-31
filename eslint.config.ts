@@ -7,6 +7,7 @@ export default antfu(
     react: true,
     vue: true,
     svelte: true,
+    solid: true,
     stylistic: true,
   },
   {
@@ -44,3 +45,9 @@ export default antfu(
     },
   },
 )
+  .override('antfu/react/rules', {
+    ignores: ['**/Solid/**/*.{t,j}sx'],
+  })
+  .override('antfu/solid/rules', {
+    ignores: ['**/React/**/*.{t,j}sx'],
+  })
